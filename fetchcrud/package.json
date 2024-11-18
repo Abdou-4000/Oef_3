@@ -1,0 +1,72 @@
+{
+  "kids": [
+    {
+      "title": "",
+      "views": 44,
+      "id": "4"
+    },
+    {
+      "title": "boo",
+      "views": 57,
+      "id": "6"
+    },
+    {
+      "id": "5",
+      "title": "another title",
+      "views": 200
+    },
+    {
+      "id": "7",
+      "title": "hallo",
+      "views": 43
+    }
+  ],
+  "savedKids": [
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "2",
+      "text": "another comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "3",
+      "text": "another comment about post 1",
+      "postId": "1"
+    }
+  ],
+  "toys": [
+    {
+      "id": "1",
+      "name": "Baziel"
+    },
+    {
+      "id": "2",
+      "name": "Joren"
+    },
+    {
+      "id": "3",
+      "name": "Jordy"
+    },
+    {
+      "id": "4",
+      "name": "Senne"
+    },
+    {
+      "id": "5",
+      "name": "Massimo"
+    }
+  ],
+  "name": "fetchcrud",
+  "version": "1.0.0",
+  "main": "fetchcrude.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

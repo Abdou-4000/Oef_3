@@ -1,4 +1,4 @@
-const url = 'http://localhost:3000/posts';
+const url = 'http://localhost:3000/kids';
 const output = document.getElementById('output');
 const savedOutput = document.getElementById('savedOutput');
 
@@ -37,19 +37,17 @@ function loadSavedPosts() {
 function saveToLocal(postId, postTitle, postViews, postLikes, timestamp) {
     try {
         const post = {
-            id: postId,  // postId is received as a string
+            id: postId,
             title: postTitle,
             views: postViews,
             likes: postLikes || 0,
             timestamp: timestamp
         };
-        
         const savedPosts = JSON.parse(localStorage.getItem('savedPosts') || '[]');
-        
-        if (!savedPosts.some(p => p.id === post.id)) {  // Comparing strings with strings
+        if (!savedPosts.some(p => p.id === post.id)) {
             savedPosts.push(post);
             localStorage.setItem('savedPosts', JSON.stringify(savedPosts));
-            loadSavedPosts();
+            loadSavedPosts(); // Refresh the display immediately
         } else {
             alert('This post is already saved!');
         }
@@ -111,30 +109,34 @@ function fetchdata() {
 }
 
 // Add new post
-document.getElementById('addPostButton').addEventListener('click', () => {
-    const newPost = {
-        title: document.getElementById('title').value,
-        views: parseInt(document.getElementById('views').value),
-        likes: parseInt(document.getElementById('likes').value) || 0,
-        timestamp: Date.now() // Add timestamp when creating new post
-    };
-    
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newPost)
-    })
-    .then(res => res.json())
-    .then(() => {
-        fetchdata();
+document.getElementById('addPostButton').addEventListener('click', function() {
+    const title = document.getElementById('title').value;
+    const views = document.getElementById('views').value;
+    const likes = document.getElementById('likes').value;
+
+    if (title && views) {
+        const newPost = {
+            id: Date.now().toString(),
+            title: title,
+            views: parseInt(views),
+            likes: parseInt(likes) || 0,
+            timestamp: Date.now()
+        };
+
+        saveToLocal(newPost.id, newPost.title, newPost.views, newPost.likes, newPost.timestamp);
+
+        // Clear input fields
         document.getElementById('title').value = '';
         document.getElementById('views').value = '';
         document.getElementById('likes').value = '';
-    })
-    .catch(e => console.error('Error adding post:', e));
+
+        // Refresh the displayed posts
+        loadSavedPosts();
+    } else {
+        alert('Please enter at least a title and number of views.');
+    }
 });
+
 
 // Delete post
 function deletePost(id) {
