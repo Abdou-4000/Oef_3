@@ -211,4 +211,10 @@ loadSavedPosts();
 
 
 
-// testing
+// Toy Logic
+function assignToy(views) {
+    if (views >= 0 && views <= 500) return "Toy A";
+    if (views >= 501 && views <= 1000) return "Toy B";
+    if (views >= 1001 && views <= 1500) return "Toy C";
+    return "No toy assigned"; 
+}
