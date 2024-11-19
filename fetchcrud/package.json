@@ -1,41 +1,43 @@
 {
-  "kids": [
+  "child": [
     {
-      "title": "",
-      "views": 44,
+      "name": "Hanne",
+      "goodieScore": 44,
+      "age": 9,
+      "timestamp": 1732021804353,
       "id": "4"
     },
     {
-      "title": "boo",
-      "views": 57,
+      "name": "Pieter",
+      "goodieScore": 57,
+      "age": 5,
       "id": "6"
     },
     {
-      "id": "5",
-      "title": "another title",
-      "views": 200
-    },
-    {
       "id": "7",
-      "title": "hallo",
-      "views": 43
+      "name": "Joke",
+      "age": 5,
+      "goodieScore": 43
     }
   ],
   "savedKids": [
     {
-      "id": "1",
-      "text": "a comment about post 1",
-      "postId": "1"
+      "id": "7",
+      "Name": "Joke",
+      "age": 5,
+      "goodieScore": 43
     },
     {
-      "id": "2",
-      "text": "another comment about post 1",
-      "postId": "1"
+      "id": "5",
+      "Name": "Donald",
+      "age": 5,
+      "goodieScore": 200
     },
     {
       "id": "3",
-      "text": "another comment about post 1",
-      "postId": "1"
+      "Name": "Jordy",
+      "age": 5,
+      "goodieScore": 200
     }
   ],
   "toys": [

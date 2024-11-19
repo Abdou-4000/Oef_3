@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Posts Manager</title>
+    <title></title>
     <link rel="stylesheet" href="fetchcrude.css">
     <script src="fetchcrude.js" defer></script>
 </head>
 <body>
     <div class="container">
-        <h1>Posts Manager</h1>
+        <h1>Santa's management system</h1>
         
-        <!-- Add Post Form -->
+        <!-- Add Child Form -->
         <div class="input-group">
-            <input type="text" id="title" placeholder="Title" required>
-            <input type="number" id="views" placeholder="Views" required>
-            <input type="number" id="likes" placeholder="Likes">
-            <button id="addPostButton">Add Post</button>
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="number" id="goodieScore" placeholder="Goodie Score" required>
+            <input type="number" id="age" placeholder="Age">
+            <button id="addChildButton">Add Child</button>
         </div>
         
         <div class="button-group">
-            <button id="clear">Refresh Posts</button>
-            <button id="clearStorage">Clear Saved Posts</button>
+            <button id="clear">Refresh Children</button>
+            <button id="clearStorage">Clear Saved Children</button>
         </div>
         
         <div id="output"></div>
         
         <!-- Saved Posts Section -->
-        <div class="saved-posts">
-            <h2>Saved Localstorage Posts</h2>
+        <div class="saved-children">
+            <h2>Santa's backpack</h2>
             <div id="savedOutput"></div>
         </div>
     </div>

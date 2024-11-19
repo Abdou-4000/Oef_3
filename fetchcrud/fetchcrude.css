@@ -94,7 +94,7 @@ button:hover {
 }
 
 /* Posts Section */
-.saved-posts {
+.saved-children {
     margin-top: 2rem;
     padding: 2rem;
     background: rgba(255, 255, 255, 0.1);
@@ -108,7 +108,7 @@ h2 {
     font-weight: 600;
 }
 
-.post-item {
+.child-item {
     background: rgba(255, 255, 255, 0.1);
     margin: 1rem 0;
     padding: 1rem;
@@ -121,7 +121,7 @@ h2 {
     transition: all 0.3s ease;
 }
 
-.post-item:hover {
+.child-item:hover {
     transform: translateX(5px);
     background: rgba(255, 255, 255, 0.15);
 }
@@ -136,7 +136,7 @@ h2 {
     margin-top: 1rem;
 }
 
-.no-posts-message {
+.no-children-message {
     padding: 20px;
     text-align: center;
     color: #ffffff;
@@ -161,7 +161,7 @@ button.smallbutton {
         width: 100%;
     }
     
-    .post-item {
+    .child-item {
         flex-direction: column;
         gap: 1rem;
         text-align: center;
