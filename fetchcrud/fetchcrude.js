@@ -16,9 +16,11 @@ function loadSavedChildren() {
             return;
         }
 
-        // Sort saved Children by timestamp in descending order
-        savedChildren.sort((a, b) => b.timestamp - a.timestamp);
-        savedChildren.forEach(child => {
+        // Sort saved Children by name in alphabetical order
+        const sortedChildren = savedChildren.sort((a, b) => a.name.localeCompare(b.name));
+
+        // Display saved Children
+        sortedChildren.forEach(child => {
             const childDiv = document.createElement('div');
             childDiv.className = 'child-item';
             childDiv.innerHTML = `
@@ -170,17 +172,25 @@ document.getElementById('addChildButton').addEventListener('click',
             age: parseInt(age) || 0,
             timestamp: Date.now()
         };
-
-        saveToLocal(newChild.id, newChild.name, newChild.goodieScore, newChild.age, newChild.timestamp);
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newChild)
+        })
+        .then(() => fetchdata())
+        .catch(e => console.log('Error adding child:', e));
+        
 
         // Clear input fields
         document.getElementById('name').value = '';
         document.getElementById('goodieScore').value = '';
         document.getElementById('age').value = '';
-
+    }
         // Refresh the displayed Children
-        loadSavedChildren();
-    } else {
+    
+    else {
         alert('Please fill in all fields.');
     }
 });

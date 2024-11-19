@@ -18,6 +18,20 @@
       "name": "Joke",
       "age": 5,
       "goodieScore": 43
+    },
+    {
+      "id": "1732026422284",
+      "name": "Bart",
+      "goodieScore": 145,
+      "age": 13,
+      "timestamp": 1732026422284
+    },
+    {
+      "id": "1732026472869",
+      "name": "Lara",
+      "goodieScore": 37,
+      "age": 10,
+      "timestamp": 1732026472869
     }
   ],
   "savedKids": [
