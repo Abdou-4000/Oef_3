@@ -1,72 +1,118 @@
-const url = 'http://localhost:3000/kids';
+const url = 'http://localhost:3000/child';
 const output = document.getElementById('output');
 const savedOutput = document.getElementById('savedOutput');
 
-// Load saved posts from localStorage
-function loadSavedPosts() {
+// Load saved Children from localStorage
+function loadSavedChildren() {
     try {
-        const savedPosts = JSON.parse(localStorage.getItem('savedPosts') || '[]');
+        const savedChildren = JSON.parse(localStorage.getItem('savedChildren') || '[]');
         savedOutput.innerHTML = '';
         
-        if (savedPosts.length === 0) {
-            const noPostsMessage = document.createElement('div');
-            noPostsMessage.className = 'no-posts-message';
-            noPostsMessage.textContent = 'No saved posts yet!';
-            savedOutput.appendChild(noPostsMessage);
+        if (savedChildren.length === 0) {
+            const noChildrenMessage = document.createElement('div');
+            noChildrenMessage.className = 'no-children-message';
+            noChildrenMessage.textContent = 'No saved children yet!';
+            savedOutput.appendChild(noChildrenMessage);
             return;
         }
 
-        // Sort saved posts by timestamp in descending order
-        savedPosts.sort((a, b) => b.timestamp - a.timestamp);
-        savedPosts.forEach(post => {
-            const postDiv = document.createElement('div');
-            postDiv.className = 'post-item';
-            postDiv.innerHTML = `
-                <span>${post.title} (${post.views}) (${post.likes || 0})</span>
-                <button onclick="removeFromSaved('${post.id}')">Remove</button>
+        // Sort saved Children by timestamp in descending order
+        savedChildren.sort((a, b) => b.timestamp - a.timestamp);
+        savedChildren.forEach(child => {
+            const childDiv = document.createElement('div');
+            childDiv.className = 'child-item';
+            childDiv.innerHTML = `
+                <span class="child-content"><p><b>${child.name}</b> (${child.age || 0})</p><p>Score: ${child.goodieScore}</p></span>
+                <button onclick="removeFromSaved('${child.id}')">Remove</button>
             `;
-            savedOutput.appendChild(postDiv);
+            savedOutput.appendChild(childDiv);
         });
     } catch (error) {
-        console.error('Error loading saved posts:', error);
-        localStorage.setItem('savedPosts', '[]');
+        console.error('Error loading saved Children:', error);
+        localStorage.setItem('savedChildren', '[]');
     }
 }
 
-// Save post to localStorage
-function saveToLocal(postId, postTitle, postViews, postLikes, timestamp) {
+// Save child to localStorage
+function saveToLocal(childId, childname, childgoodieScore, childage, timestamp) {
     try {
-        const post = {
-            id: postId,
-            title: postTitle,
-            views: postViews,
-            likes: postLikes || 0,
+        const child = {
+            id: childId,
+            name: childname,
+            goodieScore: childgoodieScore,
+            age: childage || 0,
             timestamp: timestamp
         };
-        const savedPosts = JSON.parse(localStorage.getItem('savedPosts') || '[]');
-        if (!savedPosts.some(p => p.id === post.id)) {
-            savedPosts.push(post);
-            localStorage.setItem('savedPosts', JSON.stringify(savedPosts));
-            loadSavedPosts(); // Refresh the display immediately
-        } else {
-            alert('This post is already saved!');
+        const savedChildren = JSON.parse(localStorage.getItem('savedChildren') || '[]');
+
+        // remove child from output
+        const childDiv = document.getElementById(`child-${child.id}`);
+        if (childDiv) {
+            childDiv.remove();
+        }
+
+        if (!savedChildren.some(p => p.id === child.id)) {
+            savedChildren.push(child);
+            localStorage.setItem('savedChildren', JSON.stringify(savedChildren));
+            loadSavedChildren(); // Refresh the display immediately
+        } 
+        else {
+            alert('This child is already saved!');
         }
     } catch (error) {
-        console.error('Error saving post:', error);
+        console.error('Error saving child:', error);
     }
 }
 
-// Remove post from saved posts
-function removeFromSaved(postId) {
+// Remove child from saved Children
+function removeFromSaved(childId) {
     try {
-        const savedPosts = JSON.parse(localStorage.getItem('savedPosts') || '[]');
-        // Convert postId to string for consistent comparison
-        const postIdString = String(postId);
-        const updatedPosts = savedPosts.filter(post => post.id !== postIdString);
-        localStorage.setItem('savedPosts', JSON.stringify(updatedPosts));
-        loadSavedPosts();
+        const savedChildren = JSON.parse(localStorage.getItem('savedChildren') || '[]');
+        // add child to output
+        const child = savedChildren.find(p => p.id === childId);
+        if (child) {
+            const childDiv = document.createElement('div');
+            childDiv.className = 'child-item';
+            childDiv.id = `child-${child.id}`;
+            childDiv.innerHTML = `
+                <span class="child-content"><p><b>${child.name}</b> (${child.age || 0})</p><p>Score: ${child.goodieScore}</p></span>
+                <div class="edit-form" style="display: none;">
+                    <input type="text" class="edit-name" value="${child.name}">
+                    <input type="number" class="edit-goodieScore" value="${child.goodieScore}">
+                    <input type="number" class="edit-age" value="${child.age || 0}">
+                    <button class="smallbutton" onclick="saveEdit('${child.id}')">S</button>
+                    <button class="smallbutton" onclick="cancelEdit('${child.id}')">X</button>
+                </div>
+                <div class="button-group">
+                    <button onclick="editchild('${child.id}')">Edit</button>
+                    <button onclick="saveToLocal('${child.id}', '${child.name}', ${child.goodieScore}, ${child.age || 0}, ${child.timestamp})">Save</button>
+                    <button onclick="deleteChild('${child.id}')">Delete</button>
+                </div>
+            `;
+            output.appendChild(childDiv);
+        }
+        // Convert childId to string for consistent comparison
+        const childIdString = String(childId);
+        const updatedChildren = savedChildren.filter(child => child.id !== childIdString);
+        localStorage.setItem('savedChildren', JSON.stringify(updatedChildren));
+        loadSavedChildren();
     } catch (error) {
-        console.error('Error removing saved post:', error);
+        console.error('Error removing saved child:', error);
+    }
+}
+
+// remove child from saved Children
+function removeFromSaved(childId) {
+    try {
+        const savedChildren = JSON.parse(localStorage.getItem('savedChildren') || '[]');
+
+        // Convert childId to string for consistent comparison
+        const childIdString = String(childId);
+        const updatedChildren = savedChildren.filter(child => child.id !== childIdString);
+        localStorage.setItem('savedChildren', JSON.stringify(updatedChildren));
+        loadSavedChildren();
+    } catch (error) {
+        console.error('Error removing saved child:', error);
     }
 }
 
@@ -76,136 +122,138 @@ function fetchdata() {
         .then(res => res.json())
         .then(data => {
             if (data.length === 0) {
-                const noPostsMessage = document.createElement('div');
-                noPostsMessage.className = 'no-posts-message';
-                noPostsMessage.textContent = 'No posts available. Add your first post!';
-                output.appendChild(noPostsMessage);
+                const noChildrenMessage = document.createElement('div');
+                noChildrenMessage.className = 'no-children-message';
+                noChildrenMessage.textContent = 'No children available. Add your first child!';
+                output.appendChild(noChildrenMessage);
                 return;
             }
             
-            // Sort posts by timestamp in descending order
-            const sortedData = data.sort((a, b) => b.timestamp - a.timestamp);
-            sortedData.forEach(post => {
+            // Sort Children by name in alphabetical order
+            const sortedData = data.sort((a, b) => a.name.localeCompare(b.name));
+            
+            sortedData.forEach(child => {
                 output.innerHTML += `
-                    <div class="post-item" id="post-${post.id}">
-                        <span class="post-content">${post.title} (${post.views}) (${post.likes || 0})</span>
+                    <div class="child-item" id="child-${child.id}">
+                        <span class="child-content"><p><b>${child.name}</b> (${child.age || 0})</p><p>Score: ${child.goodieScore}</p></span>
                         <div class="edit-form" style="display: none;">
-                            <input type="text" class="edit-title" value="${post.title}">
-                            <input type="number" class="edit-views" value="${post.views}">
-                            <input type="number" class="edit-likes" value="${post.likes || 0}">
-                            <button class="smallbutton" onclick="saveEdit('${post.id}')">S</button>
-                            <button class="smallbutton" onclick="cancelEdit('${post.id}')">X</button>
+                            <input type="text" class="edit-name" value="${child.name}">
+                            <input type="number" class="edit-goodieScore" value="${child.goodieScore}">
+                            <input type="number" class="edit-age" value="${child.age || 0}">
+                            <button class="smallbutton" onclick="saveEdit('${child.id}')">S</button>
+                            <button class="smallbutton" onclick="cancelEdit('${child.id}')">X</button>
                         </div>
                         <div class="button-group">
-                            <button onclick="editPost('${post.id}')">Edit</button>
-                            <button onclick="saveToLocal('${post.id}', '${post.title}', ${post.views}, ${post.likes || 0}, ${post.timestamp})">Save</button>
-                            <button onclick="deletePost('${post.id}')">Delete</button>
+                            <button onclick="editchild('${child.id}')">Edit</button>
+                            <button onclick="saveToLocal('${child.id}', '${child.name}', ${child.goodieScore}, ${child.age || 0}, ${child.timestamp})">Save</button>
+                            <button onclick="deleteChild('${child.id}')">Delete</button>
                         </div>
                     </div>
                 `;
             });
         })
-        .catch(e => console.error('Error fetching posts:', e));
+        .catch(e => console.error('Error fetching Children:', e));
 }
 
-// Add new post
-document.getElementById('addPostButton').addEventListener('click', function() {
-    const title = document.getElementById('title').value;
-    const views = document.getElementById('views').value;
-    const likes = document.getElementById('likes').value;
+// Add new child
+document.getElementById('addChildButton').addEventListener('click',
+    function() {
+    const name = document.getElementById('name').value;
+    const goodieScore = document.getElementById('goodieScore').value;
+    const age = document.getElementById('age').value;
 
-    if (title && views) {
-        const newPost = {
+    if (name && goodieScore && age) {
+        const newChild = {
             id: Date.now().toString(),
-            title: title,
-            views: parseInt(views),
-            likes: parseInt(likes) || 0,
+            name: name,
+            goodieScore: parseInt(goodieScore),
+            age: parseInt(age) || 0,
             timestamp: Date.now()
         };
 
-        saveToLocal(newPost.id, newPost.title, newPost.views, newPost.likes, newPost.timestamp);
+        saveToLocal(newChild.id, newChild.name, newChild.goodieScore, newChild.age, newChild.timestamp);
 
         // Clear input fields
-        document.getElementById('title').value = '';
-        document.getElementById('views').value = '';
-        document.getElementById('likes').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('goodieScore').value = '';
+        document.getElementById('age').value = '';
 
-        // Refresh the displayed posts
-        loadSavedPosts();
+        // Refresh the displayed Children
+        loadSavedChildren();
     } else {
-        alert('Please enter at least a title and number of views.');
+        alert('Please fill in all fields.');
     }
 });
 
 
-// Delete post
-function deletePost(id) {
+// Delete child
+function deleteChild(id) {
     fetch(`${url}/${id}`, {
         method: 'DELETE'
     })
     .then(() => fetchdata())
-    .catch(e => console.error('Error deleting post:', e));
+    .catch(e => console.error('Error deleting child:', e));
 }
 
 // Clear localStorage
 document.getElementById('clearStorage').addEventListener('click', () => {
-    if (confirm('Are you sure you want to clear all saved posts?')) {
-        localStorage.removeItem('savedPosts');
-        loadSavedPosts();
+    if (confirm('Are you sure you want to clear all saved childre?')) {
+        localStorage.removeItem('savedChildren');
+        loadSavedChildren();
     }
 });
 
 // Refresh button - anyways; absolute refresh bruh ;)
 document.getElementById('clear').addEventListener('click', fetchdata);
 
-function editPost(id) {
-    // Show edit form and hide content for the selected post
-    const postDiv = document.getElementById(`post-${id}`);
-    postDiv.querySelector('.post-content').style.display = 'none';
-    postDiv.querySelector('.edit-form').style.display = 'block';
-    postDiv.querySelector('.button-group').style.display = 'none';
+function editchild(id) {
+    // Show edit form and hide content for the selected child
+    const childDiv = document.getElementById(`child-${id}`);
+    childDiv.querySelector('.child-content').style.display = 'none';
+    childDiv.querySelector('.edit-form').style.display = 'block';
+    childDiv.querySelector('.button-group').style.display = 'none';
 }
 
 function cancelEdit(id) {
     // Hide edit form and show content
-    const postDiv = document.getElementById(`post-${id}`);
-    postDiv.querySelector('.post-content').style.display = 'block';
-    postDiv.querySelector('.edit-form').style.display = 'none';
-    postDiv.querySelector('.button-group').style.display = 'block';
+    const childDiv = document.getElementById(`child-${id}`);
+    childDiv.querySelector('.child-content').style.display = 'block';
+    childDiv.querySelector('.edit-form').style.display = 'none';
+    childDiv.querySelector('.button-group').style.display = 'block';
 }
 
 function saveEdit(id) {
     // Get the edited values
-    const postDiv = document.getElementById(`post-${id}`);
-    const newTitle = postDiv.querySelector('.edit-title').value;
-    const newViews = parseInt(postDiv.querySelector('.edit-views').value);
-    const newLikes = parseInt(postDiv.querySelector('.edit-likes').value);
+    const childDiv = document.getElementById(`child-${id}`);
+    const newname = childDiv.querySelector('.edit-name').value;
+    const newgoodieScore = parseInt(childDiv.querySelector('.edit-goodieScore').value);
+    const newage = parseInt(childDiv.querySelector('.edit-age').value);
 
-    // Create updated post object
-    const updatedPost = {
-        title: newTitle,
-        views: newViews,
-        likes: newLikes,
+    // Create updated child object
+    const updatedchild = {
+        name: newname,
+        goodieScore: newgoodieScore,
+        age: newage,
         timestamp: Date.now() // Update timestamp
     };
 
-    // Send PUT request to update the post
+    // Send PUT request to update the child
     fetch(`${url}/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(updatedPost)
+        body: JSON.stringify(updatedchild)
     })
     .then(res => res.json())
     .then(() => {
-        // Refresh the posts display
+        // Refresh the Children display
         fetchdata();
     })
-    .catch(e => console.error('Error updating post:', e));
+    .catch(e => console.error('Error updating child:', e));
 }
 
 // Initial load
 fetchdata();
-loadSavedPosts();
+loadSavedChildren();
 

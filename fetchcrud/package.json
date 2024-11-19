@@ -1,65 +1,73 @@
 {
-  "kids": [
+  "child": [
     {
-      "title": "",
-      "views": 44,
+      "name": "Hanne",
+      "goodieScore": 44,
+      "age": 9,
+      "timestamp": 1732021804353,
       "id": "4"
     },
     {
-      "title": "boo",
-      "views": 57,
+      "name": "Pieter",
+      "goodieScore": 57,
+      "age": 5,
       "id": "6"
     },
     {
-      "id": "5",
-      "title": "another title",
-      "views": 200
-    },
-    {
       "id": "7",
-      "title": "hallo",
-      "views": 43
+      "name": "Joke",
+      "age": 5,
+      "goodieScore": 43
     }
   ],
   "savedKids": [
     {
-      "id": "1",
-      "text": "a comment about post 1",
-      "postId": "1"
-    },
-    {
-      "id": "2",
-      "text": "another comment about post 1",
-      "postId": "1"
-    },
-    {
-      "id": "3",
-      "text": "another comment about post 1",
-      "postId": "1"
-    }
-  ],
-  "toys": [
-    {
-      "id": "1",
-      "name": "Baziel"
-    },
-    {
-      "id": "2",
-      "name": "Joren"
-    },
-    {
-      "id": "3",
-      "name": "Jordy"
-    },
-    {
-      "id": "4",
-      "name": "Senne"
+      "id": "7",
+      "Name": "Joke",
+      "age": 5,
+      "goodieScore": 43
     },
     {
       "id": "5",
-      "name": "Massimo"
+      "Name": "Donald",
+      "age": 5,
+      "goodieScore": 200
+    },
+    {
+      "id": "3",
+      "Name": "Jordy",
+      "age": 5,
+      "goodieScore": 200
     }
   ],
+  "toys": [
+  {
+    "id": "1",
+    "name": "Baziel",
+    "price": 25
+  },
+  {
+    "id": "2",
+    "name": "Joren",
+    "price": 30
+  },
+  {
+    "id": "3",
+    "name": "Jordy",
+    "price": 50
+  },
+  {
+    "id": "4",
+    "name": "Senne",
+    "price": 40
+  },
+  {
+    "id": "5",
+    "name": "Massimo",
+    "price": 20
+  }
+]
+,
   "name": "fetchcrud",
   "version": "1.0.0",
   "main": "fetchcrude.js",
