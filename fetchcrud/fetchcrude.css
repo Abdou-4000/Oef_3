@@ -222,11 +222,12 @@ button[disabled] {
 }
 
 .toy-emoji {
-    font-size: 2rem; /* Adjust emoji size */
-    margin-right: 10px; /* Space between emoji and name */
+    font-size: 2rem; 
+    margin-right: 10px; 
 }
 
 .toy-name {
     font-size: 1.2rem;
     font-weight: 600;
 }
+/* test */
