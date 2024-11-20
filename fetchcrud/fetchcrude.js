@@ -7,7 +7,7 @@ function loadSavedChildren() {
     try {
         const savedChildren = JSON.parse(localStorage.getItem('savedChildren') || '[]');
         savedOutput.innerHTML = '';
-        
+
         if (savedChildren.length === 0) {
             const noChildrenMessage = document.createElement('div');
             noChildrenMessage.className = 'no-children-message';
@@ -16,24 +16,36 @@ function loadSavedChildren() {
             return;
         }
 
-        // Sort saved Children by name in alphabetical order
         const sortedChildren = savedChildren.sort((a, b) => a.name.localeCompare(b.name));
 
-        // Display saved Children
+        
         sortedChildren.forEach(child => {
             const childDiv = document.createElement('div');
+            
+            const toyButton = child.toy 
+            ? `<button disabled style="background-color: gray; cursor: not-allowed;">Owns: ${child.toy}</button>` 
+            : `<button onclick="openToyPopup('${child.id}')">Buy Toy</button>`;
+
+
             childDiv.className = 'child-item';
             childDiv.innerHTML = `
-                <span class="child-content"><p><b>${child.name}</b> (${child.age || 0})</p><p>Score: ${child.goodieScore}</p></span>
-                <button onclick="removeFromSaved('${child.id}')">Remove</button>
+                <span class="child-content">
+        <p><b>${child.name}</b> (${child.age || 0})</p>
+        <p>Score: ${child.goodieScore}</p>
+        <p>Toy: ${child.toy ? `🎁 ${child.toy}` : 'None'}</p>
+
+    </span>
+    ${toyButton}
+    <button onclick="removeFromSaved('${child.id}')">Remove</button>
             `;
             savedOutput.appendChild(childDiv);
         });
     } catch (error) {
-        console.error('Error loading saved Children:', error);
+        console.error('Error loading saved children:', error);
         localStorage.setItem('savedChildren', '[]');
     }
 }
+
 
 // Save child to localStorage
 function saveToLocal(childId, childname, childgoodieScore, childage, timestamp) {
@@ -262,6 +274,75 @@ function saveEdit(id) {
     })
     .catch(e => console.error('Error updating child:', e));
 }
+
+
+// Show toy selection popup
+function openToyPopup(childId) {
+    const toyPopup = document.createElement('div');
+    toyPopup.className = 'toy-popup';
+    toyPopup.innerHTML = `
+        <h3>Select a Toy</h3>
+        <ul>
+            ${toys.map(toy => `<li>
+                ${toy.name} (Cost: ${toy.price} points)
+                <button onclick="buyToy('${childId}', '${toy.id}')">Buy</button>
+            </li>`).join('')}
+        </ul>
+        <button onclick="closeToyPopup()">Cancel</button>
+    `;
+    document.body.appendChild(toyPopup);
+}
+
+function buyToy(childId, toyId) {
+    const savedChildren = JSON.parse(localStorage.getItem('savedChildren') || '[]');
+    const child = savedChildren.find(c => c.id === childId);
+    const toy = toys.find(t => t.id === toyId);
+
+    if (child && toy) {
+        if (child.toy) {
+            alert(`${child.name} already owns a toy: ${child.toy}.`);
+            return; // Stop further execution
+        }
+
+        if (child.goodieScore >= toy.price) {
+            child.goodieScore -= toy.price;
+            child.toy = toy.name;
+
+            // Save the updated array back to localStorage
+            localStorage.setItem('savedChildren', JSON.stringify(savedChildren));
+            loadSavedChildren(); // Refresh UI
+            closeToyPopup();
+        } else {
+            alert('Not enough goodie points to buy this toy!');
+        }
+    } else {
+        alert('Child or Toy not found!');
+    }
+}
+
+
+
+const toys = [
+    { id: "1", name: "Truck", price: 25 },
+    { id: "2", name: "Xbox", price: 300 },
+    { id: "3", name: "Tennis Set", price: 50 },
+    { id: "4", name: "Tennis ball", price: 10 },
+    { id: "5", name: "Car", price: 20 }
+];
+
+
+// Close toy popup
+function closeToyPopup() {
+    document.querySelector('.toy-popup').remove();
+}
+
+// Update local storage function
+function updateLocalStorage(updatedChild) {
+    const savedChildren = JSON.parse(localStorage.getItem('savedChildren') || '[]');
+    const updatedChildren = savedChildren.map(c => c.id === updatedChild.id ? updatedChild : c);
+    localStorage.setItem('savedChildren', JSON.stringify(updatedChildren));
+}
+
 
 // Initial load
 fetchdata();

@@ -167,3 +167,66 @@ button.smallbutton {
         text-align: center;
     }
 }
+
+.toy-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 104, 104, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+button[disabled] {
+    background-color: gray;
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+
+/*  list  */
+
+/* Toy List */
+.toy-list {
+    list-style: none;
+    margin-top: 2rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;  /* Align items to the left */
+    position: absolute;
+    left: 2rem;  /* Set a left margin to position the list */
+    top: 100px;  /* Adjust to vertically space from the top */
+}
+
+.toy-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+    width: 250px;  /* Adjust width to control the size */
+}
+
+.toy-item:hover {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.toy-emoji {
+    font-size: 2rem; /* Adjust emoji size */
+    margin-right: 10px; /* Space between emoji and name */
+}
+
+.toy-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
