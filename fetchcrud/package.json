@@ -86,7 +86,7 @@
     {
       "id": "1",
       "name": "Truck",
-      "price": 25
+      "price": 55
     },
     {
       "id": "2",
@@ -96,7 +96,7 @@
     {
       "id": "3",
       "name": "Tennis Set",
-      "price": 50
+      "price": 100
     },
     {
       "id": "4",
