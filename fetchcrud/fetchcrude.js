@@ -323,9 +323,9 @@ function buyToy(childId, toyId) {
 
 
 const toys = [
-    { id: "1", name: "Truck", price: 25 },
+    { id: "1", name: "Truck", price: 55 },
     { id: "2", name: "Xbox", price: 300 },
-    { id: "3", name: "Tennis Set", price: 50 },
+    { id: "3", name: "Tennis Set", price: 100 },
     { id: "4", name: "Tennis ball", price: 10 },
     { id: "5", name: "Car", price: 20 }
 ];
